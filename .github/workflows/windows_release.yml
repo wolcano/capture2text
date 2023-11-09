@@ -37,20 +37,28 @@ jobs:
           git fetch --all --tags -f
 
       - name: (3b) Setup OpenCV 4
+        uses: UrielCh/opencv-cache-action@V1
+        with:
+          # branch to checkout default is 4.x
+          branch: "4.x" # default is 4.x
+
         # You may pin to the exact commit or the version.
         # uses: TralahM/setup-opencv-action@6f7770c6898f7b4113503f1b34c850645f6a07b0
-        uses: TralahM/setup-opencv-action@v1.2
-        with:
+        #uses: TralahM/setup-opencv-action@v1.2
+        #with:
           # OpenCV version to be installed.
-          opencv-version: 4.0.0 # default is 4.0.0
-          install-deps: false
-          WITH_TBB: false
-          WITH_IPP: false
+          #opencv-version: 4.0.0 # default is 4.0.0
+          #install-deps: false
+          #WITH_TBB: false
+          #WITH_IPP: false
           # If dependencies should be installed as well.
           #install-deps: # optional, default is true
           #CMAKE_BUILD_TYPE: # optional, default is RELEASE
           #BUILD_NEW_PYTHON_SUPPORT: # optional
-          WITH_QT: false # optional
+          #WITH_QT: false # optional
+
+      # TODO: install dependency: lept (? pvt.cppan.demo.danbloomberg.leptonica-1.74.4)
+      # TODO: install dependency: tesseract 4.0.0 (? tesseract400)
 
       - name: (3) Install Qt
         uses: jurplel/install-qt-action@v2
