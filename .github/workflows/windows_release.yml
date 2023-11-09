@@ -42,6 +42,25 @@ jobs:
           # branch to checkout default is 4.x
           branch: "4.x" # default is 4.x
 
+      - name: (3c1) Restore from cache and install vcpkg
+        uses: lukka/run-vcpkg@v11.1
+        with:
+          vcpkgGitCommitId: "64adda19c86e89526b5e27703a193c14477cce07"
+          vcpkgGitURL: https://github.com/shimat/vcpkg.git
+
+      - name: (3c2) Vcpkg Install
+        shell: powershell
+        run: |
+          echo ${env:VCPKG_ROOT}
+          & ${env:VCPKG_ROOT}\vcpkg install tesseract:x64-windows-static
+
+      - name: (3c3) Vcpkg Export
+        shell: powershell
+        run: |
+          & ${env:VCPKG_ROOT}\vcpkg export tesseract:x64-windows-static tesseract:x86-windows-static --zip --output=tesseract_vcpkg.${env:VERSION}
+          xcopy ${env:VCPKG_ROOT}\*.zip .
+          dir
+
         # You may pin to the exact commit or the version.
         # uses: TralahM/setup-opencv-action@6f7770c6898f7b4113503f1b34c850645f6a07b0
         #uses: TralahM/setup-opencv-action@v1.2
