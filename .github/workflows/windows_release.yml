@@ -57,7 +57,7 @@ jobs:
       - name: (3c3) Vcpkg Export
         shell: powershell
         run: |
-          & ${env:VCPKG_ROOT}\vcpkg export tesseract:x64-windows-static tesseract:x86-windows-static --zip --output=tesseract_vcpkg.${env:VERSION}
+          & ${env:VCPKG_ROOT}\vcpkg export tesseract:x64-windows-static --zip --output=tesseract_vcpkg.${env:VERSION}
           xcopy ${env:VCPKG_ROOT}\*.zip .
           dir
 
