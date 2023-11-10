@@ -60,7 +60,7 @@ jobs:
         run: |
           & ${env:VCPKG_ROOT}\vcpkg export tesseract:x64-windows-static --zip --output=tesseract_vcpkg.${env:TESS_VERSION}
           xcopy ${env:VCPKG_ROOT}\tesseract_vcpkg.${env:TESS_VERSION}.zip .
-          dir /b /s
+          dir -Recurse -Name
 
         # You may pin to the exact commit or the version.
         # uses: TralahM/setup-opencv-action@6f7770c6898f7b4113503f1b34c850645f6a07b0
