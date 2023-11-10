@@ -20,6 +20,7 @@ env:
   SOURCE_DIR:   ${{ github.workspace }}
   QT_VERSION:   5.15.2
   ARTIFACT:     capture2text_win64.zip
+  TESS_VERSION: "0.0.8-beta"
 
 jobs:
   build:
@@ -57,8 +58,8 @@ jobs:
       - name: (3c3) Vcpkg Export
         shell: powershell
         run: |
-          & ${env:VCPKG_ROOT}\vcpkg export tesseract:x64-windows-static --zip --output=tesseract_vcpkg.${env:VERSION}
-          xcopy ${env:VCPKG_ROOT}\*.zip .
+          & ${env:VCPKG_ROOT}\vcpkg export tesseract:x64-windows-static --zip --output=tesseract_vcpkg.${env:TESS_VERSION}
+          xcopy ${env:VCPKG_ROOT}\tesseract_vcpkg.${env:TESS_VERSION}.zip .
           dir
 
         # You may pin to the exact commit or the version.
