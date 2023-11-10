@@ -60,7 +60,6 @@ jobs:
         run: |
           & ${env:VCPKG_ROOT}\vcpkg export tesseract:x64-windows-static --zip --output=tesseract_vcpkg.${env:TESS_VERSION}
           xcopy ${env:VCPKG_ROOT}\tesseract_vcpkg.${env:TESS_VERSION}.zip .
-          dir -Recurse -Name
 
         # You may pin to the exact commit or the version.
         # uses: TralahM/setup-opencv-action@6f7770c6898f7b4113503f1b34c850645f6a07b0
@@ -101,7 +100,7 @@ jobs:
         working-directory: ${{ runner.temp }}
         run:  |
               7z x jom.zip -ojom
-              
+
       - name: (6) Create build directory
         run:  mkdir ${{ runner.temp }}\build
 
@@ -113,20 +112,21 @@ jobs:
       - name: (8) Build
         working-directory: ${{ runner.temp }}\build
         run:  |
-              qmake -r ${{ env.SOURCE_DIR }}\Capture2Text.pro
+              qmake -r ${{ env.SOURCE_DIR }}\Capture2Text.pro -DCMAKE_TOOLCHAIN_FILE=[...]/scripts/buildsystems/vcpkg.cmake
               ${{ runner.temp }}\jom\jom -j2
+              dir -Recurse -Name .. > dir_tree.txt
               cd release
               windeployqt --qmldir ${{ env.SOURCE_DIR }} Capture2Text.exe --pdb --release --compiler-runtime
               copy C:\Windows\System32\concrt140.dll . 
               copy C:\Windows\System32\vccorlib140.dll .
               copy C:\Windows\System32\msvcp140.dll .
               copy C:\Windows\System32\vcruntime140.dll .
-              
+
       - name: (9) Zip build
         working-directory: ${{ runner.temp }}
         run:  |
               7z a ${{ env.ARTIFACT }} ${{ runner.temp }}\build\* -r
-              
+
       - name: (10) Save build artifact
         uses: actions/upload-artifact@master
         with:
